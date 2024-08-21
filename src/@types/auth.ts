@@ -12,3 +12,9 @@ export interface LoginData {
     password: string;
   }
   
+
+  export interface AuthContextData {
+    token: string | null;
+    signIn: (token: string) => void;
+    signOut: () => void;
+  }
