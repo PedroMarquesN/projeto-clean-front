@@ -6,25 +6,19 @@ import { PageWeb } from '@/@types/page';
 
 
 const HomePage: React.FC = () => {
-  const { token } = useAuth();
+
   const [pages, setPages] = useState<PageWeb[]>([]);
 
   useEffect(() => {
     const fetchPages = async () => {
-      if (token) { 
-        try {
-          const data = await getPagesWeb(token);
+
+          const data = await getPagesWeb();
           setPages(data);
-        } catch (error) {
-          console.error('Failed to fetch pages', error);
-        }
-      } else {
-        console.error('Token not found');
-      }
+
     };
 
     fetchPages();
-  }, [token]);
+  }, []);
 
   return <StyledTable data={pages} />;
 };

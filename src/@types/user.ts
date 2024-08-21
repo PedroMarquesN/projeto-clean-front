@@ -17,4 +17,10 @@ export interface User {
     adress?: string;
     phone?: string;
   }
+
+  export interface RegisterFormValues {
+    username: string;
+    email: string;
+    password: string;
+  }
   

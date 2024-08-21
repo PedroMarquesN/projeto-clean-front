@@ -15,6 +15,7 @@ export interface LoginData {
 
   export interface AuthContextData {
     token: string | null;
+    setToken: (token: string) => void;
     signIn: (token: string) => void;
     signOut: () => void;
   }

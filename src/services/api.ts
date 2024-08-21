@@ -1,4 +1,5 @@
 import { PageWeb } from '@/@types/page';
+import { RegisterFormValues } from '@/@types/user';
 import axios from 'axios';
 
 const api = axios.create({
@@ -15,13 +16,18 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-export const getPagesWeb = async (token: string): Promise<PageWeb[]> => {
+export const getPagesWeb = async (): Promise<PageWeb[]> => {
   const response = await api.get('/pageweb', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+
   });
   return response.data;
 };
+
+
+export const registerUser = async (data: RegisterFormValues) => {
+  const response = await api.post('/user/register', data);
+  return response.data;
+};
+
 
 export default api;
