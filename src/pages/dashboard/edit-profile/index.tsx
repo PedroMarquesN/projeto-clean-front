@@ -1,13 +1,11 @@
 import React from 'react';
 import ProfileForm from '@/components/Form/ProfileForm';
-import { useAuth } from '@/context/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 
 const EditProfilePage: React.FC = () => {
-  const { id } = useAuth();
+ useAuth();
 
-  if (!id) {
-    return <div>Loading...</div>; 
-  }
+
 
   return (
     <div>

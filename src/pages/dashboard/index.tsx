@@ -1,4 +1,3 @@
-// pages/dashboard.tsx
 import React from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Container, Sidebar, SidebarTitle, SidebarItem, MainContent, Header, WelcomeMessage, InfoPanel, InfoCard, Button } from './styles';
@@ -7,6 +6,7 @@ import { useRouter } from 'next/router';
 const Dashboard: React.FC = () => {
   const router = useRouter();
   useAuth();
+
 
   return (
     <Container>

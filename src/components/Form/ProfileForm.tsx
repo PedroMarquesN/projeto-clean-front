@@ -1,58 +1,70 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { getProfile } from "@/services/api";
-import { Box, Button, TextField, Typography } from "@mui/material";
-import styled from "styled-components";
+import { Button, TextField, Typography } from "@mui/material";
 import { useAuth } from "@/context/AuthContext";
+import { FormBase } from "./styles";
+import { ProfileFormValues } from "@/@types/profile";
+import { useRouter } from "next/router";
 
-interface ProfileFormValues {
-  name: string;
-  address: string;
-  birthDate: string;
-  phone: string;
-}
 
-interface ProfileFormProps {
-  userId: string;
-}
-const FormBase = styled.form`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  margin: auto;
-  padding: 50px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-`;
 
 const ProfileForm: React.FC = () => {
   const { id } = useAuth();
   const { register, handleSubmit, setValue } = useForm<ProfileFormValues>();
+  const router = useRouter();
 
   useEffect(() => {
-    console.log("ID from useAuth:", id);
     if (id) {
       const fetchProfile = async () => {
         try {
           const profileData = await getProfile(id);
-          console.log(profileData);
+
           setValue("name", profileData.name);
-          setValue("address", profileData.adress);
-          setValue("birthDate", profileData.bitrhDate);
+          setValue("adress", profileData.adress);
+          setValue("bitrhDate", profileData.bitrhDate);
           setValue("phone", profileData.phone);
         } catch (error) {
           console.error("Failed to fetch profile data", error);
         }
       };
-
       fetchProfile();
     }
   }, [id, setValue]);
 
-  const onSubmit = (data: ProfileFormValues) => {
-    console.log("Updated profile data:", data);
-    // Add your update logic here
+  const updateProfile = async (userId: string, data: ProfileFormValues) => {
+    try {
+      const token = localStorage.getItem('token'); 
+      
+      const response = await fetch(`https://localhost:7137/api/profile/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to update profile');
+      }
+  
+      const result = await response.json();
+      console.log('Profile updated successfully:', result);
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
   };
+  
+  const onSubmit = (data: ProfileFormValues) => {
+    if (id) { 
+      updateProfile(id, data);
+      router.push('/dashboard');
+    } else {
+      console.error("User ID is not defined");
+    }
+  };
+  
 
   return (
     <FormBase onSubmit={handleSubmit(onSubmit)}>
@@ -67,14 +79,14 @@ const ProfileForm: React.FC = () => {
         InputLabelProps={{ shrink: true }}
       />
       <TextField
-        {...register("address")}
+        {...register("adress")}
         label="Address"
         variant="outlined"
         margin="normal"
         InputLabelProps={{ shrink: true }}
       />
       <TextField
-        {...register("birthDate")}
+        {...register("bitrhDate")}
         label="Birth Date"
         variant="outlined"
         margin="normal"
