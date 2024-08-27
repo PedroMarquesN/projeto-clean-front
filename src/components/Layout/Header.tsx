@@ -8,10 +8,11 @@ import { useAuth } from '@/context/AuthContext';
 
 const Navbar: React.FC = () => {
   const router = useRouter();
-  const { token, setToken } = useAuth();
+  const { token, signOut } = useAuth();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const open = Boolean(anchorEl);
+
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -26,12 +27,7 @@ const Navbar: React.FC = () => {
     setAnchorEl(null);
   };
 
-  const signOut = () => {
-    localStorage.removeItem('token');
-    setToken("");
-    router.push('/');
-    handleMenuClose();
-  };
+
 
   return (
     <AppBar position="static">
@@ -59,8 +55,11 @@ const Navbar: React.FC = () => {
               open={open}
               onClose={handleMenuClose}
             >
-              <MenuItem onClick={() => router.push('/profile')}>
+              <MenuItem onClick={() => router.push('/dashboard/edit-profile')}>
                 Editar Perfil
+              </MenuItem>
+              <MenuItem onClick={() => router.push('/dashboard')}>
+                Dashboard
               </MenuItem>
               <MenuItem onClick={signOut}>
                 Logout

@@ -2,17 +2,19 @@
 import React from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Container, Sidebar, SidebarTitle, SidebarItem, MainContent, Header, WelcomeMessage, InfoPanel, InfoCard, Button } from './styles';
+import { useRouter } from 'next/router';
 
 const Dashboard: React.FC = () => {
+  const router = useRouter();
   useAuth();
 
   return (
     <Container>
       <Sidebar>
-        <SidebarTitle>Dashboard Menu</SidebarTitle>
+        <SidebarTitle >Dashboard Menu</SidebarTitle>
         <SidebarItem>Home</SidebarItem>
-        <SidebarItem>Estátisticas</SidebarItem>
-        <SidebarItem>Configuraçoes</SidebarItem>
+        <SidebarItem onClick={()=> router.push('/')}>Paginas WEB</SidebarItem>
+        <SidebarItem>Editar Paginas WEB</SidebarItem>
         <SidebarItem>Notificações</SidebarItem>
       </Sidebar>
       <MainContent>

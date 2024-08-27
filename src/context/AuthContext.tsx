@@ -1,43 +1,63 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
+import { Router, useRouter } from 'next/router';
 import { AuthContextData } from '@/@types/auth';
 
 
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData);
+export const AuthContext = createContext<AuthContextData | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
+  const [id, setUserId] = useState<string | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+
   const router = useRouter();
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
-    } else {
-      router.push('/');
-    }
-  }, []);
-
-  const signIn = (newToken: string) => {
-    localStorage.setItem('token', newToken);
-    setToken(newToken);
-    router.push('/dashboard');
+  const signIn = (token: string, userId: string, userRole: string) => {
+    setToken(token);
+    setUserId(userId);
+    setRole(userRole);
+    localStorage.setItem('authToken', token);
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('userRole', userRole);
   };
 
   const signOut = () => {
-    localStorage.removeItem('token');
     setToken(null);
-    router.push('/login');
+    setUserId(null);
+    setRole(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('role');
+    router.push('/');
   };
 
+  useEffect(() => {
+    const storedToken = localStorage.getItem('authToken');
+    const storedUserId = localStorage.getItem('userId');
+    const storedUserRole = localStorage.getItem('userRole');
+
+    if (storedToken && storedUserId && storedUserRole) {
+      setToken(storedToken);
+      setUserId(storedUserId);
+      setRole(storedUserRole);
+    }
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ token,setToken, signIn, signOut }}>
+    <AuthContext.Provider value={{ token, id, role, setToken, setUserId, setRole, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const context = React.useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 };

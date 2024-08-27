@@ -29,5 +29,10 @@ export const registerUser = async (data: RegisterFormValues) => {
   return response.data;
 };
 
+export const getProfile = async (userId: string) => {
+  const response = await api.get(`/profile/getprofile/${userId}`);
+  return response.data;
+};
+
 
 export default api;

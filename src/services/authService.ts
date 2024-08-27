@@ -4,6 +4,7 @@ import api from './api';
 export const authService = {
   login: async (data: LoginData): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>('/auth/login', data);
+    console.log("Response from login:", response.data);
     return response.data;
   },
 

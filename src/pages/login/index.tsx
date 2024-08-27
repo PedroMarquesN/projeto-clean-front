@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, set } from 'react-hook-form';
 import { TextField, Button } from '@mui/material';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
@@ -22,13 +22,17 @@ export const FormBase = styled.form`
 const Login: React.FC = () => {
   const { register, handleSubmit } = useForm<LoginData>();
   const router = useRouter();
-  const {setToken} = useAuth();
+  const {setToken,setRole,setUserId} = useAuth();
 
   const onSubmit: SubmitHandler<LoginData> = async (data) => {
     try {
       const response = await authService.login(data);
       localStorage.setItem('token', response.token);
+      localStorage.setItem('userId', response.userId);
+      localStorage.setItem('role', response.role);
       setToken(response.token);
+      setRole(response.role);
+      setUserId(response.userId);
       router.push('/dashboard');
     } catch (error) {
       console.error('Login failed:', error);

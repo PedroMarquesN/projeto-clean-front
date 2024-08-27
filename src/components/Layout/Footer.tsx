@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
             : theme.palette.grey[800],
       }}
     >
-      <Container maxWidth="sm">
+      <Container>
         <Typography variant="body1">Action Enterprise © 2024</Typography>
       </Container>
     </Box>
