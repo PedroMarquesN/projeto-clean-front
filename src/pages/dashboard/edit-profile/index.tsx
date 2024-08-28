@@ -1,9 +1,10 @@
 import React from 'react';
 import ProfileForm from '@/components/Form/ProfileForm';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuthenticate } from '@/hooks/useAuth';
+
 
 const EditProfilePage: React.FC = () => {
- useAuth();
+ useAuthenticate();
 
 
 

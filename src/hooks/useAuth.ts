@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-export const useAuth = () => {
+export const useAuthenticate = () => {
   const router = useRouter();
 
   useEffect(() => {

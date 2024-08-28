@@ -9,7 +9,7 @@ interface StyledTableProps {
 
 const StyledTable: React.FC<StyledTableProps> = ({ data }) => {
   return (
-    <TableContainer component={Paper} sx={{ boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.1)' }}>
+    <TableContainer component={Paper} sx={{ height:'100vh' ,boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.1)', overflow: 'auto' }}>
       <Table>
         <TableHead>
           <TableRow>

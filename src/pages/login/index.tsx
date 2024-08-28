@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm, SubmitHandler, set } from 'react-hook-form';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Typography } from '@mui/material';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { LoginData } from '@/@types/auth';
@@ -11,7 +11,8 @@ import { useAuth } from '@/context/AuthContext';
 export const FormBase = styled.form`
   display: flex;
   flex-direction: column;
-  width: 300px;
+  height: 100vh;
+  width: 500px;
   margin: auto;
   padding: 50px;
   gap: 20px;
@@ -40,7 +41,11 @@ const Login: React.FC = () => {
   };
 
   return (
+
     <FormBase onSubmit={handleSubmit(onSubmit)}>
+          <Typography variant="h6" gutterBottom>
+      LOGIN
+    </Typography>
       <TextField
         {...register('email', { required: true })}
         label="Email"

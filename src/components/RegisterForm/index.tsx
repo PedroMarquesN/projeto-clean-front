@@ -13,7 +13,8 @@ interface RegisterFormProps {
 export const FormBaseRegister = styled.form`
   display: flex;
   flex-direction: column;
-  width: 300px;
+  height: 100vh;
+  width: 500px;
   margin: auto;
   padding: 50px;
   gap: 20px;
